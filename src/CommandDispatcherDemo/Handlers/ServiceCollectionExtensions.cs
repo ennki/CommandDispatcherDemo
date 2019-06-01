@@ -8,6 +8,13 @@ namespace CommandDispatcherDemo.Handlers
     {
         public static IServiceCollection AddCommandHandlers(this IServiceCollection services, Assembly assembly)
         {
+            RegisterCommandHandlers(services, assembly);
+            services.AddTransient<ICommandDispatcher, CommandDispatcher>();
+            return services;
+        }
+
+        private static void RegisterCommandHandlers(IServiceCollection services, Assembly assembly)
+        {
             var types = from t in assembly.DefinedTypes
                         where t.ImplementedInterfaces.Any()
                         let i = t.ImplementedInterfaces.First()
@@ -21,8 +28,6 @@ namespace CommandDispatcherDemo.Handlers
             {
                 services.AddTransient(type.ImplementedInterfaces.First(), type);
             }
-
-            return services;
         }
     }
 }
