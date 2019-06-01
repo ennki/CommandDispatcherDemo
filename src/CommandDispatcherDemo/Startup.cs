@@ -1,4 +1,5 @@
-﻿using CommandDispatcherDemo.Services;
+﻿using CommandDispatcherDemo.Handlers;
+using CommandDispatcherDemo.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,8 @@ namespace CommandDispatcherDemo
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IDemoService, DemoService>();
+            services.AddTransient<ICommandHandler<Request1, Response1>, Request1Handler>();
+            services.AddTransient<ICommandHandler<Request2>, Request2Handler>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
